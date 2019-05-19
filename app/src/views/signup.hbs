@@ -1,0 +1,52 @@
+<section class="page signin">
+  <div class="form-panel">
+    <p class="app-name">Pew</p>
+
+    {{#if error}}
+      <p class="form-error">{{ message }}</p>
+    {{/if}}
+
+    <form action="/signup" method="POST" class="signup">
+      <div class="text-field">
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name">
+
+        {{#if error.name}}
+          <p class="field-error">{{ message.name }}</p>
+        {{/if}}
+
+      </div>
+      <div class="text-field">
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email">
+
+        {{#if error.email}}
+          <p class="field-error">{{ message.email }}</p>
+        {{/if}}
+
+      </div>
+      <div class="text-field">
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username">
+
+        {{#if error.username}}
+          <p class="field-error">{{ message.username }}</p>
+        {{/if}}
+
+      </div>
+      <div class="text-field">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password">
+
+        {{#if error.password}}
+          <p class="field-error">{{ message.password }}</p>
+        {{/if}}
+
+      </div>
+      <button type="submit">
+        Sign Up
+      </button>
+    </form>
+    <a href="/">I already have an account</a>
+  </div>
+</section>

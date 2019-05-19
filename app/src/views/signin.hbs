@@ -1,0 +1,25 @@
+<section class="page signin">
+  <div class="form-panel">
+    <p class="app-name">Pew</p>
+
+    {{#if error}}
+      <p class="form-error">{{ message }}</p>
+    {{/if}}
+
+    <form action="/" method="POST" class="signin">
+      <input type="hidden" name="action" value="SIGNIN">
+      <div class="text-field">
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username">
+      </div>
+      <div class="text-field">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password">
+      </div>
+      <button type="submit">
+        Sign in
+      </button>
+    </form>
+    <a href="/signup">Sign Up</a>
+  </div>
+</section>

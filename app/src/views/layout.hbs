@@ -5,6 +5,12 @@
     <link rel='stylesheet' href='/styles/style.css' />
   </head>
   <body>
+    {{#if currentUser}}
+      <form action="/" method="post">
+        <input type="hidden" name="action" value="SIGNOUT">
+        <button type="submit">Sign Out</button>
+      </form>
+    {{/if}}
     {{{body}}}
   </body>
 </html>

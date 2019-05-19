@@ -1,5 +1,9 @@
 #!/usr/bin/env node
 
+// Load environment variables.
+require( "dotenv-safe" ).load()
+
+// Modules
 const app   = require( "../app" )
 const debug = require( "debug" )( "pew:server" )
 const http  = require( "http" )
