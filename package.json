@@ -2,6 +2,7 @@
   "name": "pew",
   "version": "0.0.0",
   "license": "MIT",
+  "main": "app/bin/www",
   "scripts": {
     "mongo": "docker-compose -f docker/docker-compose.yml up -d",
     "start": "node ./app/bin/www",
@@ -11,7 +12,6 @@
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
-    "dotenv-safe": "^6.1.0",
     "express": "~4.16.1",
     "handlebars-intl": "^1.1.2",
     "hbs": "~4.0.4",
@@ -26,6 +26,7 @@
     "validator": "^10.11.0"
   },
   "devDependencies": {
-    "nodemon": "^1.19.0"
+    "nodemon": "^1.19.0",
+    "dotenv-safe": "^6.1.0"
   }
 }
