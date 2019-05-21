@@ -1,20 +1,19 @@
 const router = require( "express" ).Router()
 
-const { getAuthenticatedUser } = require( "../util/authentication" )
-const signinController         = require( "../controllers/signinController" )
-const signoutController        = require( "../controllers/signoutController" )
-const timelineController       = require( "../controllers/timelineController" )
+const signinController  = require( "../controllers/signinController" )
+const signoutController = require( "../controllers/signoutController" )
+const homeController    = require( "../controllers/homeController" )
+const profileController = require( "../controllers/profileController" )
 
 router.get( "/", async ( request, response, next ) => { // signin
   if ( request.currentUser ) {
-    console.log( "then here" )
     next()
   } else {
     signinController.get( request, response, next )
   }
 }, ( request, response, next ) => { // timeline
   
-  timelineController.get( request, response, next )
+  homeController.get( request, response, next )
 })
 
 router.post( "/", ( request, response, next ) => {
@@ -27,9 +26,15 @@ router.post( "/", ( request, response, next ) => {
     case "SIGNOUT":
       signoutController.post( request, response, next )
       break;
+    case "POST":
+      homeController.post( request, response, next )
+      break;
     default:
       response.redirect( "/" )
   }
 })
+
+router.get( "/:username", profileController.get )
+router.post( "/:username", profileController.post )
 
 module.exports = router

@@ -1,6 +1,16 @@
-const jwt = require( "jsonwebtoken" )
+const jwt         = require( "jsonwebtoken" )
+const { sha256 }  = require( "js-sha256" )
+const { isEmpty } = require( "validator" )
 
-const timelineController = require( "./timelineController" )
+const { isParameterInvalid } = require( "../lib/request" )
+const homeController         = require( "./homeController" )
+const userController         = require( "./userController" )
+
+const isRequestInvalid = ({ body }) => {
+
+  return isParameterInvalid( "username", !isEmpty( body.username ), "Please, tell us your username" )
+      || isParameterInvalid( "password", !isEmpty( body.password ), "You must give your password" )
+}
 
 const get = ( request, response, next ) => {
 
@@ -9,38 +19,56 @@ const get = ( request, response, next ) => {
   })
 }
 
-const post = ( request, response, next ) => {
-  const { username, password } = request.body
-  const user = {
-    id: 1,
-    username: "renan",
-    password: "iddqd"
-  }
+const post = async ( request, response, next ) => {
+  const isInvalid = isRequestInvalid( request )
 
-  if ( username === user.username && password === user.password ) {
-    const { COOKIE_USERNAME, COOKIE_JWT } = process.env
+  if ( !isInvalid ) {
+    const { username, password } = request.body
 
-    const cookieOptions = { maxAge: 9000000 }
-    const currentUser   = { id: user.id }
-    const token         = jwt.sign( currentUser, process.env.SECRET, {
-      expiresIn: 86400
-    })
-
-    request.currentUser = currentUser
-
-    response
-      .cookie( COOKIE_USERNAME, user.username, cookieOptions )
-      .cookie( COOKIE_JWT, token, cookieOptions )
-      
-    timelineController.get( request, response, next )
-  } else {
+    const user = await userController.getByUsername( request, response, next )
     
+    if ( user && username === user.username && sha256( password ) === user.password ) {
+      const { COOKIE_USERNAME, COOKIE_JWT } = process.env
+
+      const cookieOptions = { maxAge: 9000000 }
+      const currentUser   = { 
+        _id: user._id,
+        name: user.name,
+        username: user.username,
+        email: user.email
+      }
+      const token         = jwt.sign( currentUser, process.env.SECRET, {
+        expiresIn: 86400
+      })
+
+      request.currentUser = currentUser
+
+      response
+        .cookie( COOKIE_USERNAME, user.username, cookieOptions )
+        .cookie( COOKIE_JWT, token, cookieOptions )
+        
+      homeController.get( request, response, next )
+    } else {
+      
+      response
+        .status( 401 )
+        .render( "signin", {
+          title: "Sign In - Pew", 
+          error: {
+            auth: true
+          },
+          message: {
+            auth: "Username or password is invalid"
+          }
+        })
+    }
+  } else {
+
     response
-      .status( 401 )
       .render( "signin", {
-        title: "Sign In - Pew", 
-        error: true,
-        message: "Username or password is invalid"
+        title: "Sign In - Pew",
+        ...request.body,
+        ...isInvalid
       })
   }
 }

@@ -2,15 +2,37 @@
 <html>
   <head>
     <title>{{title}}</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <link rel='stylesheet' href='/styles/style.css' />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
   </head>
   <body>
+    
     {{#if currentUser}}
-      <form action="/" method="post">
-        <input type="hidden" name="action" value="SIGNOUT">
-        <button type="submit">Sign Out</button>
-      </form>
+      <header>
+        <div class="container">
+          <a class="app-name" href="/">
+            <p>Pew</p>
+          </a>
+          <div class="_menu">
+            <a href="/{{ currentUser.username }}">
+              <i class="fas fa-user"></i>
+              My profile
+            </a>
+            <form action="/" method="post">
+              <input type="hidden" name="action" value="SIGNOUT">
+              <button class="signout" type="submit">
+                <i class="fas fa-sign-out-alt"></i>
+                Sign Out
+              </button>
+            </form>
+          </div>
+        </div>
+      </header>
     {{/if}}
+    
     {{{body}}}
+
   </body>
 </html>

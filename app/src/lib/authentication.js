@@ -7,14 +7,12 @@ const isPublic = ( path ) => {
   return [ "/", "/signup" ].includes( path )
 }
 
-const sendToSignin = ( resolve, request, response ) => {
+const sendToSignin = ( request, response ) => {
   const { COOKIE_JWT } = process.env 
 
-  resolve( false )
   response
     .cookie( COOKIE_JWT, "", { maxAge: 0 } )
-    .status( 401 )
-  signinController.get( request, response )
+    .redirect( "/" )
 }
 
 const middleware = ( request, response, next ) => {
@@ -27,9 +25,8 @@ const middleware = ( request, response, next ) => {
     jwt.verify( token, SECRET, ( error, decoded ) => {
       
       if ( error ) {
-        sendToSignin( resolve, request, response )
+        sendToSignin( request, response )
       } else {
-        console.log( "im here" )
         request.currentUser = decoded
         next()
       }
@@ -37,7 +34,7 @@ const middleware = ( request, response, next ) => {
   } else {
     isPublic( path )
       ? next()
-      : sendToSignin( resolve, request, response ) 
+      : sendToSignin( request, response ) 
   }
 }
 

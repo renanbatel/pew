@@ -1,25 +1,39 @@
 <section class="page signin">
   <div class="form-panel">
+    <img class="_logo" src="/images/logo.png">
     <p class="app-name">Pew</p>
+    <p class="_sub">Sign In</p>
 
-    {{#if error}}
-      <p class="form-error">{{ message }}</p>
+    {{#if error.auth}}
+      <p class="form-error">{{ message.auth }}</p>
     {{/if}}
 
     <form action="/" method="POST" class="signin">
       <input type="hidden" name="action" value="SIGNIN">
       <div class="text-field">
         <label for="username">Username</label>
-        <input type="text" name="username" id="username">
+        <input type="text" name="username" id="username" value="{{ username }}">
+
+        {{#if error.username}}
+          <p class="field-error">{{ message.username }}</p>
+        {{/if}}
+
       </div>
       <div class="text-field">
         <label for="password">Password</label>
-        <input type="password" name="password" id="password">
+        <input type="password" name="password" id="password" value="{{ password }}">
+
+        {{#if error.password}}
+          <p class="field-error">{{ message.password }}</p>
+        {{/if}}
+
       </div>
-      <button type="submit">
-        Sign in
-      </button>
+      <div class="_actions">
+        <a href="/signup">Sign Up</a>
+        <button class="default" type="submit">
+          Sign in
+        </button>
+      </div>
     </form>
-    <a href="/signup">Sign Up</a>
   </div>
 </section>
