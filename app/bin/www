@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 
-// Load environment variables.
-require( "dotenv-safe" ).load()
+if ( process.env.NODE_ENV === "development" ) {
+  // Load environment variables.
+  require( "dotenv-safe" ).load()
+}
 
 // Modules
 const app   = require( "../app" )

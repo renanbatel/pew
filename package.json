@@ -6,7 +6,7 @@
   "scripts": {
     "mongo": "docker-compose -f docker/docker-compose.yml up -d",
     "start": "node ./app/bin/www",
-    "dev": "nodemon ./app/bin/www",
+    "dev": "NODE_ENV=development nodemon ./app/bin/www",
     "mongo:dev": "yarn mongo && yarn dev"
   },
   "dependencies": {
