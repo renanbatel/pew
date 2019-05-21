@@ -2,6 +2,7 @@ const mongoose = require( "mongoose" )
 
 const connect = () => {
   const {
+    DBPROTOCOL,
     DBHOST,
     DBPORT,
     DBNAME,
@@ -10,7 +11,9 @@ const connect = () => {
   } = process.env
   
   mongoose.connect(
-    `mongodb://${ DBUSER }:${ escape( DBPASS ) }@${ DBHOST }:${ DBPORT }/${ DBNAME }`,
+    DBPROTOCOL === "mongodb+srv"
+      ? `${ DBPROTOCOL }://${ DBUSER }:${ escape( DBPASS ) }@${ DBHOST }/${ DBNAME }`
+      : `${ DBPROTOCOL }://${ DBUSER }:${ escape( DBPASS ) }@${ DBHOST }:${ DBPORT }/${ DBNAME }`,
     {
       useNewUrlParser: true
     }

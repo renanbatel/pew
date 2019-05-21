@@ -35,6 +35,11 @@ a {
 
 form {
 
+  > .form-error {
+    margin-bottom: 1rem;
+    color: #f0483c;
+    text-align: center;
+  }
   > ._actions {
     display: flex;
     justify-content: flex-end;

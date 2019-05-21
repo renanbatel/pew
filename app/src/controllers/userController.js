@@ -30,6 +30,22 @@ const create = ( request, response, next ) => {
   })
 }
 
+const getByEmail = ( request, response, next ) => {
+  const { email } = request.body
+
+  return new Promise(( resolve, reject ) => {
+    User.findOne({
+      email
+    }, ( error, user ) => {
+      if ( error ) {
+        reject( error )
+      } else {
+        resolve( user )
+      }
+    })
+  })
+}
+
 const getByUsername = ( request, response, next ) => {
   const { username } = request.body
 
@@ -125,6 +141,7 @@ const removeFollowing = async ( request, response, next ) => {
 module.exports = {
   create,
   getById,
+  getByEmail,
   getByUsername,
   getCurrent,
   addFollowing,

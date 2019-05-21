@@ -23,9 +23,38 @@ const post = async ( request, response, next ) => {
   const isInvalid = isRequestInvalid( request )
 
   if ( !isInvalid ) {
-    const user = await userController.create( request, response, next )
+    const exists = await userController.getByEmail( request, response, next )
+    
+    if ( exists ) {
+      response.render( "signup", {
+        ...request.body,
+        error: {
+          email: true
+        },
+        message: {
+          email: "This email is already in use"
+        }
+      })
+    } else {
+      const exists = await userController.getByUsername( request, response, next )
+    
+      if ( exists ) {
+        response.render( "signup", {
+          ...request.body,
+          error: {
+            username: true
+          },
+          message: {
+            username: "This username is already taken"
+          }
+        })
+      } else {
+        const user = await userController.create( request, response, next )
 
-    response.redirect( "/" )
+        response.redirect( "/" )
+      }
+    }
+
   } else {
     response.render( "signup", {
       ...request.body,

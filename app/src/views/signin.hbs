@@ -4,11 +4,12 @@
     <p class="app-name">Pew</p>
     <p class="_sub">Sign In</p>
 
-    {{#if error.auth}}
-      <p class="form-error">{{ message.auth }}</p>
-    {{/if}}
-
     <form action="/" method="POST" class="signin">
+
+      {{#if error.auth}}
+        <p class="form-error">{{ message.auth }}</p>
+      {{/if}}
+      
       <input type="hidden" name="action" value="SIGNIN">
       <div class="text-field">
         <label for="username">Username</label>
