@@ -1,10 +1,9 @@
 {
-  "name": "pew",
-  "version": "0.0.0",
+  "name": "@pew/server",
+  "version": "1.0.0",
   "license": "MIT",
   "main": "app/bin/www",
   "scripts": {
-    "mongo": "docker-compose -f docker/docker-compose.yml up -d",
     "start": "node ./app/bin/www",
     "dev": "NODE_ENV=development nodemon ./app/bin/www",
     "mongo:dev": "yarn mongo && yarn dev"
@@ -26,7 +25,7 @@
     "validator": "^10.11.0"
   },
   "devDependencies": {
-    "nodemon": "^1.19.0",
-    "dotenv-safe": "^6.1.0"
+    "dotenv": "^8.0.0",
+    "nodemon": "^1.19.0"
   }
 }

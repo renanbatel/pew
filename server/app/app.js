@@ -14,8 +14,9 @@ const indexRouter    = require( "./src/routes/index" )
 const signupRouter   = require( "./src/routes/signup" )
 const models         = require( "./src/models" )
 
-const app = express()
 const env = process.env.NODE_ENV || "development"
+
+const app = express()
 
 // View engine setup.
 app.set( "views", path.join( __dirname, "src/views" ) )

@@ -7,16 +7,17 @@ const connect = () => {
     DBPORT,
     DBNAME,
     DBUSER,
-    DBPASS
+    DBPASS,
+    DBOPTIONS,
   } = process.env
-  
+
   mongoose.connect(
     DBPROTOCOL === "mongodb+srv"
-      ? `${ DBPROTOCOL }://${ DBUSER }:${ escape( DBPASS ) }@${ DBHOST }/${ DBNAME }`
-      : `${ DBPROTOCOL }://${ DBUSER }:${ escape( DBPASS ) }@${ DBHOST }:${ DBPORT }/${ DBNAME }`,
+      ? `${ DBPROTOCOL }://${ DBUSER }:${ escape( DBPASS ) }@${ DBHOST }/${ DBNAME }${ DBOPTIONS }`
+      : `${ DBPROTOCOL }://${ DBUSER }:${ escape( DBPASS ) }@${ DBHOST }:${ DBPORT }/${ DBNAME }${ DBOPTIONS }`,
     {
-      useNewUrlParser: true
-    }
+      useNewUrlParser: true,
+    },
   )
 }
 
@@ -26,5 +27,5 @@ const disconnect = () => {
 
 module.exports = {
   connect,
-  disconnect
+  disconnect,
 }
