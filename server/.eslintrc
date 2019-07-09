@@ -1,0 +1,36 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "eslint:recommended",
+    "airbnb"
+  ],
+  "env": {
+    "node": true
+  },
+  "rules": {
+    "quotes": [ "error", "double" ],
+    "semi": [ "error", "never" ],
+    "space-in-parens": [ "error", "always" ],
+    "array-bracket-spacing": [ "error", "always" ],
+    "computed-property-spacing": [ "error", "always" ],
+    "padded-blocks": [ "error", { "blocks": "never", "classes": "always" }, { "allowSingleLineBlocks": true } ],
+    "template-curly-spacing": [ "error", "always" ],
+    "padding-line-between-statements": [ "error", 
+      { "blankLine": "always", "prev": [ "const", "let" ], "next": "*" },
+      { "blankLine": "any", "prev": [ "const", "let" ], "next": [ "const", "let" ] },
+      { "blankLine": "always", "prev": "return", "next": "*" }
+    ],
+    "no-param-reassign": [ "error", { "props": false } ],
+    "no-multi-spaces": [ "warn", {
+      "exceptions": {
+        "AssignmentExpression": true
+      }
+    } ],
+    "no-console": [ "error", {
+      "allow": [ "warn", "error" ]
+    } ],
+    "no-underscore-dangle": "off",
+    "no-shadow": "off",
+    "no-restricted-globals": "off"
+  }
+}

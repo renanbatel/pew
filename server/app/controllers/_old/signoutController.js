@@ -1,4 +1,4 @@
-const signinController = require( "../controllers/signinController" )
+const signinController = require( "./signinController" )
 
 const post = ( request, response, next ) => {
   const { COOKIE_USERNAME, COOKIE_JWT } = process.env 

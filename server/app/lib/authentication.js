@@ -1,10 +1,8 @@
 const jwt = require( "jsonwebtoken" )
 
-const signinController = require( "../controllers/signinController" )
-
 const isPublic = ( path ) => {
 
-  return [ "/", "/signup" ].includes( path )
+  return [ "/auth/signup", "/auth/signin" ].includes( path )
 }
 
 const sendToSignin = ( request, response ) => {
@@ -16,25 +14,29 @@ const sendToSignin = ( request, response ) => {
 }
 
 const middleware = ( request, response, next ) => {
-  const { COOKIE_JWT, SECRET } = process.env
-  const { path }               = request
+  const { SECRET } = process.env
+  const { path } = request
 
-  const token = request.cookies[ COOKIE_JWT ]
+  const authorization = request.headers[ "authorization" ]
 
-  if ( token ) {
+  if ( authorization ) {
+    const token = authorization.replace( "Bearer ", "" )
+
     jwt.verify( token, SECRET, ( error, decoded ) => {
       
       if ( error ) {
-        sendToSignin( request, response )
+        response.status( 401 ).send()
       } else {
         request.currentUser = decoded
         next()
       }
-    })
+    } )
   } else {
     isPublic( path )
       ? next()
-      : sendToSignin( request, response ) 
+      : response
+          .status( 401 ) 
+          .send()
   }
 }
 
