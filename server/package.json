@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./app/bin/www",
-    "dev": "NODE_ENV=development nodemon ./app/bin/www",
+    "dev": "cross-env NODE_ENV=development nodemon ./app/bin/www",
     "lint": "eslint ."
   },
   "dependencies": {
@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.0.2",
+    "cross-env": "^5.2.0",
     "dotenv": "^8.0.0",
     "eslint": "^6.0.1",
     "eslint-config-airbnb": "^17.1.1",
