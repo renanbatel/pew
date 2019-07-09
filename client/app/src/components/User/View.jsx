@@ -1,14 +1,25 @@
 import React from "react"
-import { Link } from "react-router-dom"
+import PropTypes from "prop-types"
 
-const View = ( { match } ) => {
+import Timeline from "../Timeline"
+
+const View = ( {
+  profile,
+  handleFollow,
+} ) => {
+
+  console.log( profile )
 
   return (
     <div>
-      <p>{ match.params.username }</p>
-      <Link to="/">Home</Link>
+      
     </div>
   )
+}
+
+View.propTypes = {
+  profile: PropTypes.instanceOf( Object ).isRequired,
+  handleFollow: PropTypes.func.isRequired,
 }
 
 export default View
