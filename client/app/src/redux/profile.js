@@ -12,7 +12,7 @@ export const actionTypes = {
 // Initial state
 export const initialState = {
   loading: true,
-  profile: {
+  content: {
     user: null,
     posts: [],
   }
@@ -40,12 +40,12 @@ export const profileFollowSuccess = data => ( {
 } )
 
 export const profileUnfollowRequest = payload => ( {
-  type: actionTypes.PROFILE_FOLLOW_REQUEST,
+  type: actionTypes.PROFILE_UNFOLLOW_REQUEST,
   payload,
 } )
 
 export const profileUnfollowSuccess = data => ( {
-  type: actionTypes.PROFILE_FOLLOW_SUCCESS,
+  type: actionTypes.PROFILE_UNFOLLOW_SUCCESS,
   data,
 } )
 
@@ -59,20 +59,34 @@ export default ( state = initialState, action ) => {
     case actionTypes.PROFILE_SUCCESS: {
       return {
         ...state,
-        profile: action.data,
+        content: action.data,
       }
     }
     case actionTypes.PROFILE_FOLLOW_SUCCESS: {
-      /* return {
+      const newUser = state.content.user
+
+      newUser.followers.push( action.data )
+
+      return {
         ...state,
-        posts: action.data,
-      } */
+        content: {
+          ...state.content,
+          user: newUser,
+        }
+      }
     }
     case actionTypes.PROFILE_UNFOLLOW_SUCCESS: {
-      /* return {
+      const newUser = state.content.user
+
+      newUser.followers = newUser.followers.filter( userId => userId !== action.data )
+
+      return {
         ...state,
-        posts: action.data,
-      } */
+        content: {
+          ...state.content,
+          user: newUser,
+        }
+      }
     }
     case actionTypes.PROFILE_UPDATE_LOADING: {
       return {

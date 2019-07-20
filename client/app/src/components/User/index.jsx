@@ -7,6 +7,7 @@ import {
   profileRequest,
   profileFollowRequest,
   profileUnfollowRequest,
+  profileUpdateLoading,
 } from "../../redux/profile"
 import withAuth from "../withAuth"
 import View from "./View"
@@ -14,12 +15,15 @@ import View from "./View"
 class User extends Component {
 
   static propTypes = {
+    user: PropTypes.instanceOf( Object ).isRequired,
+    profile: PropTypes.instanceOf( Object ).isRequired,
     profileRequest: PropTypes.func.isRequired,
     profileFollowRequest: PropTypes.func.isRequired,
     profileUnfollowRequest: PropTypes.func.isRequired,
   }
 
   static mapStateToProps = state => ( {
+    user: state.user,
     profile: state.profile,
   } )
 
@@ -27,17 +31,31 @@ class User extends Component {
     profileRequest,
     profileFollowRequest,
     profileUnfollowRequest,
+    profileUpdateLoading,
   }, dispatch )
 
   componentWillMount() {
     const { profileRequest, match } = this.props
     const { username } = match.params
 
+    profileUpdateLoading( true )
     profileRequest( { username } )
   }
 
   handleFollow = () => {
-    console.log( "follow" )
+    const {
+      user,
+      profile,
+      profileFollowRequest,
+      profileUnfollowRequest,
+    } = this.props
+    const { username } = profile.content.user
+
+    if ( profile.content.user.followers.includes( user.current._id ) ) {
+      profileUnfollowRequest( { username } )
+    } else {
+      profileFollowRequest( { username } )
+    }
   }
 
   render() {

@@ -45,7 +45,45 @@ const getByUsername = ( username ) => {
   })
 }
 
+const updateFollow = ( currentUserId, userId, action ) => {
+  const method = action === "follow" 
+    ? "$push" 
+    : "$pull"
+
+  return new Promise(( resolve, reject ) => {
+    User
+      .findById( currentUserId )
+      .updateOne({ [ method ]: { following: userId } })
+      .exec(( error ) => {
+        if ( error ) {
+          reject( error )
+        } else {
+          User
+            .findById( userId )
+            .updateOne({ [ method ]: { followers: currentUserId } })
+            .exec(( error, user ) => {
+              if ( error ) {
+                reject( error )
+              } else {
+                resolve( user )
+              }
+            })
+        }
+      })
+  })
+}
+
+const addFollowing = async ( currentUserId, userId ) => {
+  return await updateFollow( currentUserId, userId, "follow" )
+}
+
+const removeFollowing = async ( currentUserId, userId ) => {
+  return await updateFollow( currentUserId, userId, "unfollow" )
+}
+
 module.exports = {
   create,
   getByUsername,
+  addFollowing,
+  removeFollowing,
 }

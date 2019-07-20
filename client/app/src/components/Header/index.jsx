@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
+import { withRouter } from "react-router"
 import PropTypes from "prop-types"
 
 import { logoutRequest } from "../../redux/user"
@@ -21,8 +22,9 @@ class Header extends Component {
   }, dispatch )
 
   handleSignout = () => {
-    const { logoutRequest } = this.props
+    const { logoutRequest, history } = this.props
 
+    history.push( "/login" )
     logoutRequest()
   }
 
@@ -41,4 +43,4 @@ class Header extends Component {
 export default connect(
   Header.mapStateToProps,
   Header.mapDispatchToProps,
-)( Header )
+)( withRouter( Header ) )

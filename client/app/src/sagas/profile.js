@@ -27,11 +27,17 @@ export function* handleProfileRequest( { payload } ) {
 }
 
 export function* handleProfileFollowRequest( { payload } ) {
+  const response = yield call( pew.post, `user/follow/${ payload.username }` )
+  const { currentUser } = response.data
 
+  yield put( profileFollowSuccess( currentUser._id ) )
 }
 
 export function* handleProfileUnfollowRequest( { payload } ) {
+  const response = yield call( pew.post, `user/unfollow/${ payload.username }` )
+  const { currentUser } = response.data
 
+  yield put( profileUnfollowSuccess( currentUser._id ) )
 }
 
 export function* watchProfileRequest() {
